@@ -1,0 +1,137 @@
+<div class="progress-container">
+  <header class="progress-header">
+    <div class="header-content">
+      <button class="btn-back" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i>
+        <span>Voltar</span>
+      </button>
+      <h1>Meu Progresso</h1>
+      <div class="header-spacer"></div>
+    </div>
+  </header>
+
+  <main class="progress-main">
+    <div class="progress-grid">
+      <!-- Seção do gráfico -->
+      <div class="chart-section">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h2>Hábitos Concluídos</h2>
+            <div class="time-selector">
+              <button class="time-btn" 
+                      [class.active]="selectedPeriod === 'week'"
+                      (click)="setPeriod('week')">
+                Semana
+              </button>
+              <button class="time-btn" 
+                      [class.active]="selectedPeriod === 'month'"
+                      (click)="setPeriod('month')">
+                Mês
+              </button>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas #chartCanvas></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção do calendário -->
+      <div class="calendar-section">
+        <div class="calendar-card">
+          <div class="calendar-header">
+            <h2>Calendário - {{ getMonthName() }}</h2>
+            <div class="legend">
+              <div class="legend-item">
+                <div class="legend-dot high"></div>
+                <span>Alto</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot medium"></div>
+                <span>Médio</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot low"></div>
+                <span>Baixo</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot empty"></div>
+                <span>Nenhum</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="calendar-grid">
+            <!-- Cabeçalho dos dias da semana -->
+            <div class="calendar-weekday" *ngFor="let day of getWeekDays()">
+              {{ day }}
+            </div>
+            
+            <!-- Dias do calendário -->
+            <div class="calendar-day" 
+                 *ngFor="let dayData of calendarData"
+                 [class.empty]="dayData.empty"
+                 [class.today]="dayData.isToday"
+                 [class.has-progress]="dayData.progressClass"
+                 [attr.title]="dayData.empty ? '' : dayData.completedHabits + '/' + dayData.totalHabits + ' hábitos concluídos'">
+              <span class="day-number">{{ dayData.day }}</span>
+              <div class="progress-indicator" 
+                   *ngIf="!dayData.empty && dayData.progressClass"
+                   [class]="'progress-' + dayData.progressClass"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estatísticas resumidas -->
+      <div class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-fire"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Sequência Atual</h3>
+              <p class="stat-number">7</p>
+              <p class="stat-label">dias consecutivos</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Melhor Sequência</h3>
+              <p class="stat-number">15</p>
+              <p class="stat-label">dias consecutivos</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Taxa de Sucesso</h3>
+              <p class="stat-number">85%</p>
+              <p class="stat-label">este mês</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-target"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Total de Hábitos</h3>
+              <p class="stat-number">{{ habits.length }}</p>
+              <p class="stat-label">ativos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+

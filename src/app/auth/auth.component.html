@@ -1,0 +1,53 @@
+<div class="auth-container">
+  <div class="auth-box">
+    <div class="logo">
+      <i class="fas fa-seedling"></i>
+      <h1>Habit Tracker</h1>
+    </div>
+    <p>Acompanhe seus hábitos e cultive uma vida melhor.</p>
+
+    <!-- Formulário de Login -->
+    <form *ngIf="isLoginMode" (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <div class="form-group">
+        <input type="email" id="email" name="email" placeholder="E-mail" [(ngModel)]="loginEmail" required email>
+      </div>
+      <div class="form-group">
+        <input type="password" id="password" name="password" placeholder="Senha" [(ngModel)]="loginPassword" required>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">Entrar</button>
+    </form>
+
+    <!-- Formulário de Cadastro -->
+    <form *ngIf="!isLoginMode" (ngSubmit)="onRegister()" #registerForm="ngForm">
+      <div class="form-group">
+        <input type="text" id="regName" name="regName" placeholder="Nome" [(ngModel)]="registerName" required>
+      </div>
+      <div class="form-group">
+        <input type="email" id="regEmail" name="regEmail" placeholder="E-mail" [(ngModel)]="registerEmail" required email>
+      </div>
+      <div class="form-group">
+        <input type="password" id="regPassword" name="regPassword" placeholder="Senha" [(ngModel)]="registerPassword" required minlength="6">
+      </div>
+      <div class="form-group">
+        <input type="password" id="regPasswordConfirm" name="regPasswordConfirm" placeholder="Confirme a Senha" [(ngModel)]="registerPasswordConfirm" required>
+      </div>
+      <div class="form-group lgpd-checkbox">
+        <div class="checkbox-container">
+          <input type="checkbox" id="checkbox_de_termos" name="terms" [(ngModel)]="termsAccepted" required>
+          <label for="checkbox_de_termos">Eu li e concordo com os <a href="#">Termos e Condições</a>.</label>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="!registerForm.valid">Cadastrar</button>
+    </form>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <p class="auth-switch">
+      <span *ngIf="isLoginMode">Não tem uma conta? <a href="#" (click)="toggleMode(); $event.preventDefault()">Cadastre-se</a></span>
+      <span *ngIf="!isLoginMode">Já tem uma conta? <a href="#" (click)="toggleMode(); $event.preventDefault()">Faça login</a></span>
+    </p>
+  </div>
+</div>
+

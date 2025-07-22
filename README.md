@@ -155,3 +155,4 @@ Este projeto foi desenvolvido como uma modernização completa do sistema origin
 
 **Desenvolvido com ❤️ usando Angular 19 e muito CSS moderno!**
 
+"# habit-trucker-new" 
